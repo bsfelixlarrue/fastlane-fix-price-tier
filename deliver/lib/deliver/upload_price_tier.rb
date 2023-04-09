@@ -29,12 +29,16 @@ module Deliver
         territory_ids = Spaceship::ConnectAPI::Territory.all.map(&:id)
         attributes[:availableInNewTerritories] = true
       end
-
-      if price_tier == old_price
-        UI.success("Price Tier unchanged (tier #{old_price})")
-        return
+      
+      begin
+        if price_tier == old_price
+          UI.success("Price Tier unchanged (tier #{old_price})")
+          return
+        end
+      rescue => exc
+        puts exc.to_s
+        old_price = 'none'
       end
-
       app.update(attributes: attributes, app_price_tier_id: price_tier, territory_ids: territory_ids)
       UI.success("Successfully updated the pricing from #{old_price} to #{price_tier}")
     end
