@@ -44,7 +44,10 @@ module Spaceship
         client ||= Spaceship::ConnectAPI
         resp = client.get_app_store_version_localization(app_store_version_localization_id: app_store_version_localization_id, filter: filter, includes: includes, limit: limit, sort: sort)
         return resp.to_models
-      rescue
+      rescue => e
+        puts "========== Localization error =========="
+        puts "#{e.message}"
+        puts "========================================"
         raise Spaceship::AppStoreLocalizationError, @locale
       end
 
@@ -52,7 +55,10 @@ module Spaceship
         client ||= Spaceship::ConnectAPI
         resp = client.get_app_store_version_localizations(app_store_version_id: app_store_version_id, filter: filter, includes: includes, limit: limit, sort: sort)
         return resp.to_models
-      rescue
+      rescue => e
+        puts "========== Localization error =========="
+        puts "#{e.message}"
+        puts "========================================"
         raise Spaceship::AppStoreLocalizationError, @locale
       end
 
@@ -60,14 +66,20 @@ module Spaceship
         client ||= Spaceship::ConnectAPI
         attributes = reverse_attr_mapping(attributes)
         client.patch_app_store_version_localization(app_store_version_localization_id: id, attributes: attributes)
-      rescue
+      rescue => e
+        puts "========== Localization error =========="
+        puts "#{e.message}"
+        puts "========================================"
         raise Spaceship::AppStoreLocalizationError, @locale
       end
 
       def delete!(client: nil, filter: {}, includes: nil, limit: nil, sort: nil)
         client ||= Spaceship::ConnectAPI
         client.delete_app_store_version_localization(app_store_version_localization_id: id)
-      rescue
+      rescue => e
+        puts "========== Localization error =========="
+        puts "#{e.message}"
+        puts "========================================"
         raise Spaceship::AppStoreLocalizationError, @locale
       end
 
